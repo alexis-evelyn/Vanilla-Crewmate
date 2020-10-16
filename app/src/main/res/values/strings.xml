@@ -9,10 +9,13 @@
 
     <string name="about_app">This app is for replacing the regionInfo.dat file that Among Us uses to connect to servers.</string>
     <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
+    <string name="displayName">Display Name - Custom</string>
     <string name="ip_address">IP Address - 127.0.0.1</string>
     <string name="port">Port - 22023</string>
     <string name="create_file">Create File</string>
     <string name="created_file">File was successfully created!!!</string>
     <string name="empty_ip_address">IP Address Cannot Be Empty!!!</string>
     <string name="need_sd_card_permission">This app cannot function without writing to the SD Card!!!</string>
+    <string name="invalid_ip_address">Please specify a valid IP Address</string>
+    <string name="defaultDisplayName">Custom</string>
 </resources>

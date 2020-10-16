@@ -1,5 +1,6 @@
 package me.alexisevelyn.crewmate.vanillaredirector;
 
+import android.Manifest;
 import android.app.Instrumentation.ActivityResult;
 import android.content.Context;
 import android.content.pm.PackageManager;
@@ -13,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
+import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.fragment.NavHostFragment;
@@ -40,31 +42,30 @@ public class FirstFragment extends Fragment {
                 // NavHostFragment.findNavController(FirstFragment.this).navigate(R.id.action_FirstFragment_to_SecondFragment);
 
                 // TODO: Create File Here
-                EditText ipAddressEditText = MainActivity.mainActivity.findViewById(R.id.ip_address);
+                EditText displayNameEditText = MainActivity.mainActivity.findViewById(R.id.displayName);
+                EditText ipAddressEditText = MainActivity.mainActivity.findViewById(R.id.ipAddress);
                 EditText portEditText = MainActivity.mainActivity.findViewById(R.id.port);
-                // EditText displayName = view.findViewById(R.id.display_name);
 
-                if (ipAddressEditText == null || portEditText == null) {
-                    Log.e(MainActivity.LOG_TAG, "IP and/or Port EditText is null!!!!!!!!!!!!!!!!");
+                if (ipAddressEditText == null || portEditText == null || displayNameEditText == null) {
+                    Log.e(MainActivity.LOG_TAG, "IP and/or Port and/or displayName EditText is null!!!!!!!!!!!!!!!!");
                     return;
                 }
 
+                Editable displayNameText = displayNameEditText.getText();
                 Editable ipAddressText = ipAddressEditText.getText();
                 Editable portText = portEditText.getText();
 
-                if (ipAddressText == null || portText == null) {
-                    Log.e(MainActivity.LOG_TAG, "IP and/or Port is null");
+                if (ipAddressText == null || portText == null || displayNameText == null) {
+                    Log.e(MainActivity.LOG_TAG, "IP and/or Port and/or displayName is null");
                     return;
                 }
 
-                String displayName = "Custom";
+                String displayName = MainActivity.mainActivity.getApplicationContext().getText(R.string.defaultDisplayName).toString();
                 String ipAddress = ipAddressText.toString();
                 int port = 22023;
 
-                try {
-                    port = Integer.parseInt(portText.toString());
-                } catch (NumberFormatException ignored) {
-                    // Ignored For Now!!!
+                if (!displayNameText.toString().isEmpty()) {
+                    displayName = displayNameText.toString();
                 }
 
                 if (ipAddress.isEmpty()) {
@@ -78,14 +79,30 @@ public class FirstFragment extends Fragment {
                     return;
                 }
 
+                try {
+                    port = Integer.parseInt(portText.toString());
+                } catch (NumberFormatException ignored) {
+                    // Ignored For Now!!!
+                }
+
                 Log.d(MainActivity.LOG_TAG, "IP Address: " + ipAddress + ":" + port);
 
-                int canWriteToSD = ContextCompat.checkSelfPermission(MainActivity.mainActivity.getApplicationContext(), "android.permission.WRITE_EXTERNAL_STORAGE");
+                int canWriteToSD = ContextCompat.checkSelfPermission(MainActivity.mainActivity.getApplicationContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE);
 
                 if (canWriteToSD == PackageManager.PERMISSION_GRANTED)
                     RegionFileGenerator.createRegionFile(ipAddress, port, displayName);
-                else if (shouldShowRequestPermissionRationale("android.permission.WRITE_EXTERNAL_STORAGE")) {
-                    // TODO: Request Permission Here
+                else if (shouldShowRequestPermissionRationale(Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+                    // Request Permission Here
+                    // https://developer.android.com/training/permissions/requesting
+                    // https://developer.android.com/reference/androidx/core/app/ActivityCompat#requestPermissions(android.app.Activity,%20java.lang.String%5B%5D,%20int)
+                    ActivityCompat.requestPermissions(MainActivity.mainActivity, new String[] {Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1337);
+
+//                    Context context = MainActivity.mainActivity.getApplicationContext();
+//                    CharSequence text = "Ask Permission";
+//                    int duration = Toast.LENGTH_LONG;
+//
+//                    Toast toast = Toast.makeText(context, text, duration);
+//                    toast.show();
                 } else {
                     Context context = MainActivity.mainActivity.getApplicationContext();
                     CharSequence text = context.getText(R.string.need_sd_card_permission);

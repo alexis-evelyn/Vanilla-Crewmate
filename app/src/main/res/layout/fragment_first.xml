@@ -18,15 +18,27 @@
         />
 
     <EditText
-        android:id="@+id/ip_address"
+        android:id="@+id/displayName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:autofillHints="@string/displayName"
+        android:hint="@string/displayName"
+        app:layout_constraintEnd_toEndOf="@id/info"
+        app:layout_constraintStart_toStartOf="@id/info"
+        app:layout_constraintTop_toBottomOf="@id/info"
+        android:inputType="text" />
+
+    <EditText
+        android:id="@+id/ipAddress"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:autofillHints="@string/ip_address"
         android:hint="@string/ip_address"
-        app:layout_constraintEnd_toEndOf="@id/info"
-        app:layout_constraintStart_toStartOf="@id/info"
-        app:layout_constraintTop_toBottomOf="@id/info"
+        app:layout_constraintEnd_toEndOf="@id/displayName"
+        app:layout_constraintStart_toStartOf="@id/displayName"
+        app:layout_constraintTop_toBottomOf="@id/displayName"
         android:inputType="number"
         android:digits="0123456789." />
 
@@ -37,9 +49,9 @@
         android:layout_marginTop="16dp"
         android:autofillHints="@string/port"
         android:hint="@string/port"
-        app:layout_constraintEnd_toEndOf="@id/ip_address"
-        app:layout_constraintStart_toStartOf="@id/ip_address"
-        app:layout_constraintTop_toBottomOf="@id/ip_address"
+        app:layout_constraintEnd_toEndOf="@id/ipAddress"
+        app:layout_constraintStart_toStartOf="@id/ipAddress"
+        app:layout_constraintTop_toBottomOf="@id/ipAddress"
         android:inputType="number" />
 
     <Button
@@ -51,4 +63,5 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

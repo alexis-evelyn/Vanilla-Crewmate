@@ -2,6 +2,7 @@ package me.alexisevelyn.crewmate.vanillaredirector.region;
 
 import android.content.Context;
 import android.os.Environment;
+import android.os.NetworkOnMainThreadException;
 import android.widget.Toast;
 import me.alexisevelyn.crewmate.vanillaredirector.MainActivity;
 import me.alexisevelyn.crewmate.vanillaredirector.R;
@@ -39,6 +40,19 @@ public class RegionFileGenerator {
 
             Context context = MainActivity.mainActivity.getApplicationContext();
             CharSequence text = "IOException - Failed To Create Region File: " + outFile.getAbsolutePath() + "\n" + e.getMessage();
+            int duration = Toast.LENGTH_LONG;
+
+            Toast toast = Toast.makeText(context, text, duration);
+            toast.show();
+        } catch (NetworkOnMainThreadException ignored) {
+            // TODO: Deal With This!!!
+            // https://stackoverflow.com/a/6343299/6828099
+
+            // InetAddress.getByName(ipAddressRaw); performs a lookup if it assumes it's a non-ip host
+            // That's why an invalid ip causes this exception
+
+            Context context = MainActivity.mainActivity.getApplicationContext();
+            CharSequence text = context.getText(R.string.invalid_ip_address);
             int duration = Toast.LENGTH_LONG;
 
             Toast toast = Toast.makeText(context, text, duration);
