@@ -93,10 +93,9 @@ public class RegionFileGenerator {
         // IP Address Byte Form
         byte[] ipAddressByteForm = ipAddress.getAddress();
 
-        // Port
-        // TODO: Convert Integer port to bytes Int-16 LE
-        byte[] portBytes = {0x07, 0x56}; // Port 22023
-        System.out.println("Port Bytes: " + Arrays.toString(convertShortToLE((short) port)));
+        // Port - Converts Integer port to bytes Int-16 LE
+        byte[] portBytes = convertShortToLE((short) port);
+        // System.out.println("Port Bytes: " + Arrays.toString(convertShortToLE((short) port)));
 
         // Footer
         byte[] footerBytes = {0x00, 0x00, 0x00, 0x00};
